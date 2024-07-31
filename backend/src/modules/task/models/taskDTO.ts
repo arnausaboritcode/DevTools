@@ -5,4 +5,5 @@ export interface TaskDTO {
   title: string;
   description: string;
   type: TaskRace;
+  createdAt: Date;
 }

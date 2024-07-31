@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ChatService } from './chat.service';
+import { AutoDestroyService } from './auto-destroy.service';
 
-describe('ChatService', () => {
-  let service: ChatService;
+describe('AutoDestroyService', () => {
+  let service: AutoDestroyService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(ChatService);
+    service = TestBed.inject(AutoDestroyService);
   });
 
   it('should be created', () => {

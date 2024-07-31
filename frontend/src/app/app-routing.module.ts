@@ -1,15 +1,26 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { MainPageComponent } from './features/components/main-page/main-page.component';
+import { LayoutComponent } from './core/layout/layout.component';
+import { MainPageComponent } from './features/task/pages/main-page/main-page.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'main', pathMatch: 'full' },
-  { path: 'main', component: MainPageComponent, title: 'Main page' },
-  { path: '**', redirectTo: 'main' },
+  {
+    path: '',
+    component: LayoutComponent,
+    children: [
+      { path: '', redirectTo: 'tasks', pathMatch: 'full' },
+      { path: 'tasks', component: MainPageComponent, title: 'Main page' },
+    ],
+  },
+  { path: '**', redirectTo: 'tasks' },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [
+    RouterModule.forRoot(routes, {
+      enableViewTransitions: true,
+    }),
+  ],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

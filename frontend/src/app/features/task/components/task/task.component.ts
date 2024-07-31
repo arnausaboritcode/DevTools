@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { TaskDto } from '../../../../core/models/taskDto';
 
 @Component({
   selector: 'app-task',
@@ -6,7 +7,7 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrl: './task.component.scss',
 })
 export class TaskComponent implements OnInit {
-  @Input() systemResponse!: string;
+  @Input() task!: TaskDto;
 
   constructor() {}
 
