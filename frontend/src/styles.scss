@@ -1,4 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
+
+/*Font awesome icons */
+@import "@fortawesome/fontawesome-free/css/all.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -17,4 +21,5 @@ body {
   margin: 0 auto;
   height: 100dvh;
   font-family: "Inter", sans-serif;
+  background-color: rgb(10 10 10);
 }

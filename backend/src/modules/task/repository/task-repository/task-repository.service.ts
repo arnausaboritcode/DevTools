@@ -33,6 +33,17 @@ export class TaskRepositoryService implements BaseRepository<Task> {
     return from(this.repository.delete(id));
   }
 
+  //Search
+
+  search(query: string): Observable<Task[]> {
+    return from(
+      this.repository
+        .createQueryBuilder('task')
+        .where('LOWER(task.title) LIKE LOWER(:query)', { query: `%${query}%` })
+        .getMany(),
+    );
+  }
+
   //Delete oldest tasks
 
   count(): Observable<number> {

@@ -7,8 +7,9 @@ import { TaskComponent } from './features/task/components/task/task.component';
 import { MainPageComponent } from './features/task/pages/main-page/main-page.component';
 
 import { HttpClientModule } from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LayoutComponent } from './core/layout/layout.component';
@@ -26,6 +27,8 @@ import { LayoutComponent } from './core/layout/layout.component';
     RouterModule,
     HttpClientModule,
     ReactiveFormsModule,
+    FontAwesomeModule,
+    FormsModule,
   ],
   providers: [provideClientHydration()],
   bootstrap: [AppComponent],

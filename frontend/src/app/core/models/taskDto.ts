@@ -3,4 +3,5 @@ export interface TaskDto {
   title: string;
   description: string;
   type: string;
+  createdAt: Date;
 }

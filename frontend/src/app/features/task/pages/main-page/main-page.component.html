@@ -1,5 +1,84 @@
-<div class="w-screen h-screen flex flex-col justify-center items-center">
-  <div class="w-full flex justify-center items-center p-4">
-    <app-task *ngFor="let task of storedTasks" [task]="task"></app-task>
+<div class="w-full h-full flex flex-col justify-center items-center gap-10">
+  <!-- Introduction -->
+  <div
+    class="w-screen h-screen flex flex-col justify-center items-center gap-10 p-10"
+  >
+    <div
+      class="w-1/2 flex flex-col justify-center items-center text-center gap-5"
+    >
+      <h1
+        class="text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 to-50% to-slate-200"
+      >
+        Lleva tus proyectos al siguiente nivel
+      </h1>
+      <p
+        class="font-bold text-2xl bg-gradient-to-r from-neutral-900 via-slate-500 to-neutral-500 bg-[200%_auto] bg-clip-text text-transparent"
+      >
+        Your new IT projects assistant
+      </p>
+      <a
+        class="px-4 py-2 bg-gradient-to-r w-fit from-gray-800 to-gray-700 shadow-lg rounded-lg text-white"
+        href=""
+        >Explora</a
+      >
+    </div>
   </div>
+
+  <!-- Navbar -->
+  <nav class="flex flex-wrap items-center justify-between mx-auto mb-20">
+    <ul class="flex md:flex-row flex-col justify-center items-center gap-10">
+      <li>
+        <a
+          href="#"
+          class="py-3 px-4 text-white rounded-lg border-2 border-slate-500"
+          aria-current="page"
+          >Proyectos de hoy</a
+        >
+      </li>
+      <li>
+        <a href="#" class="py-2 px-3 text-white" aria-current="page"
+          >Todos los proyectos</a
+        >
+      </li>
+      <li>
+        <a href="#" class="py-2 px-3 text-white" aria-current="page"
+          >Frontend</a
+        >
+      </li>
+      <li>
+        <a href="#" class="py-2 px-3 text-white" aria-current="page">Backend</a>
+      </li>
+      <li>
+        <a href="#" class="py-2 px-3 text-white" aria-current="page"
+          >Fullstack</a
+        >
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Searcher -->
+  <div
+    class="flex items-center w-1/2 h-12 bg-slate-500 rounded-xl shadow-lg overflow-hidden transition-shadow ease-in-out duration-500 hover:shadow-[0_0_118px_0px_rgba(255,255,255,0.4)] focus-within:shadow-[0_0_118px_0px_rgba(255,255,255,0.4)] mb-10"
+  >
+    <div class="grid place-items-center h-full w-12">
+      <i class="fa-solid fa-magnifying-glass text-white text-lg"></i>
+    </div>
+    <input
+      class="h-full w-full outline-none text-sm text-white pr-2 bg-slate-500"
+      type="search"
+      id="search"
+      placeholder="Search tasks..."
+      [(ngModel)]="query"
+      (input)="subscribeToInputChanges()"
+    />
+  </div>
+  <!-- SearchedResults -->
+  <div *ngIf="searchedResults" class="w-fit flex flex-col justify-center gap-5">
+    <app-task *ngFor="let task of searchedResults" [task]="task"></app-task>
+  </div>
+
+  <!-- Tasks -->
+  <!--   <div class="w-fit flex flex-col justify-center gap-5">
+    <app-task *ngFor="let task of storedTasks" [task]="task"></app-task>
+  </div> -->
 </div>

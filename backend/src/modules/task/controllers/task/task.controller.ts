@@ -1,4 +1,12 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { firstValueFrom } from 'rxjs';
 import { DeleteResult } from 'typeorm';
 import { TaskDTO } from '../../models/taskDTO';
@@ -11,6 +19,12 @@ export class TaskController {
   @Get()
   async get(): Promise<TaskDTO[]> {
     const tasks = await firstValueFrom(this.taskService.get());
+    return tasks;
+  }
+
+  @Get('search')
+  async searchTask(@Query('query') query: string): Promise<TaskDTO[]> {
+    const tasks = await firstValueFrom(this.taskService.search(query));
     return tasks;
   }
 

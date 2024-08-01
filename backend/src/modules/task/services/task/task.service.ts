@@ -23,4 +23,8 @@ export class TaskService {
   delete(id: string): Observable<DeleteResult> {
     return this.repository.delete(id);
   }
+
+  search(query: string): Observable<TaskDTO[]> {
+    return this.repository.search(query);
+  }
 }
