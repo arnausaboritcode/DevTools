@@ -1,0 +1,83 @@
+<div class="w-full p-20">
+  <div class="overflow-x-auto">
+    <div
+      class="flex justify-start items-center gap-2 h-9 w-auto min-w-full border-b border-1 border-gray-700"
+    >
+      <button
+        class="w-full flex items-center gap-x-3 cursor-pointer transition-all duration-300 text-white text-base px-4 py-1.5"
+        routerLink="./"
+        routerLinkActive="border-b"
+      >
+        <i class="fa-solid fa-border-all"></i>
+        All
+      </button>
+      <button
+        class="w-full flex items-center gap-x-3 cursor-pointer transition-all duration-300 text-white text-base px-4"
+      >
+        <i class="fa-solid fa-cloud-bolt"></i>
+        Extensions
+      </button>
+      <button
+        class="w-full flex items-center gap-x-3 cursor-pointer transition-all duration-300 text-white text-base px-4"
+      >
+        <i class="fa-solid fa-cloud"></i>
+        Resources
+      </button>
+    </div>
+  </div>
+  <router-outlet></router-outlet>
+</div>
+
+<!-- Navbar -->
+<nav class="flex flex-wrap items-center justify-between mx-auto mb-20">
+  <ul class="flex md:flex-row flex-col justify-center items-center gap-10">
+    <li>
+      <a
+        href="#"
+        class="py-3 px-4 text-white rounded-lg border-2 border-slate-500"
+        aria-current="page"
+        >Proyectos de hoy</a
+      >
+    </li>
+    <li>
+      <a href="#" class="py-2 px-3 text-white" aria-current="page"
+        >Todos los proyectos</a
+      >
+    </li>
+    <li>
+      <a href="#" class="py-2 px-3 text-white" aria-current="page">Frontend</a>
+    </li>
+    <li>
+      <a href="#" class="py-2 px-3 text-white" aria-current="page">Backend</a>
+    </li>
+    <li>
+      <a href="#" class="py-2 px-3 text-white" aria-current="page">Fullstack</a>
+    </li>
+  </ul>
+</nav>
+
+<!-- Searcher -->
+<div
+  class="flex items-center w-1/2 h-12 bg-slate-500 rounded-xl shadow-lg overflow-hidden transition-shadow ease-in-out duration-500 hover:shadow-[0_0_118px_0px_rgba(255,255,255,0.4)] focus-within:shadow-[0_0_118px_0px_rgba(255,255,255,0.4)] mb-10"
+>
+  <div class="grid place-items-center h-full w-12">
+    <i class="fa-solid fa-magnifying-glass text-white text-lg"></i>
+  </div>
+  <input
+    class="h-full w-full outline-none text-sm text-white pr-2 bg-slate-500"
+    type="search"
+    id="search"
+    placeholder="Search tasks..."
+    [(ngModel)]="query"
+    (input)="subscribeToInputChanges()"
+  />
+</div>
+<!-- SearchedResults -->
+<div *ngIf="searchedResults" class="w-fit flex flex-col justify-center gap-5">
+  <app-task *ngFor="let task of searchedResults" [task]="task"></app-task>
+</div>
+
+<!-- Tasks -->
+<!--   <div class="w-fit flex flex-col justify-center gap-5">
+  <app-task *ngFor="let task of storedTasks" [task]="task"></app-task>
+</div> -->

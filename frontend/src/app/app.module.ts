@@ -13,6 +13,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LayoutComponent } from './core/layout/layout.component';
+import { ToolsPageComponent } from './features/task/pages/tools-page/tools-page.component';
+import { AllToolsComponent } from './features/task/components/all-tools/all-tools.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +22,8 @@ import { LayoutComponent } from './core/layout/layout.component';
     LayoutComponent,
     MainPageComponent,
     TaskComponent,
+    ToolsPageComponent,
+    AllToolsComponent,
   ],
   imports: [
     BrowserModule,

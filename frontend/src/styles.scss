@@ -3,6 +3,12 @@
 /*Font awesome icons */
 @import "@fortawesome/fontawesome-free/css/all.css";
 
+/* Importing Geist font */
+@font-face {
+  font-family: "Geist";
+  src: url("../node_modules/geist/dist/fonts/geist-sans/Geist-Black.ttf");
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -20,6 +26,16 @@ html {
 body {
   margin: 0 auto;
   height: 100dvh;
-  font-family: "Inter", sans-serif;
+  font-family: ui-sans-serif,system-ui,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;
   background-color: rgb(10 10 10);
+}
+
+/* Others */
+
+.shadow-button {
+  box-shadow: 0 0 #0000, 0 0 #0000, 0 0 #0000, 0 0 #0000, inset 0 6px 12px #4c64d2,0 0 17px rgba(110,137,255,.77),inset 0 1px 10px hsla(0,0%,100%,.55);
+}
+
+.bg-button {
+ background-image:  linear-gradient(180deg,#3152df95,#1e254595);
 }
