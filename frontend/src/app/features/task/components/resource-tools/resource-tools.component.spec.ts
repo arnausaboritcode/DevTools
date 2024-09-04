@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MainPageComponent } from './main-page.component';
+import { ResourceToolsComponent } from './resource-tools.component';
 
-describe('MainPageComponent', () => {
-  let component: MainPageComponent;
-  let fixture: ComponentFixture<MainPageComponent>;
+describe('ResourceToolsComponent', () => {
+  let component: ResourceToolsComponent;
+  let fixture: ComponentFixture<ResourceToolsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [MainPageComponent]
+      imports: [ResourceToolsComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(MainPageComponent);
+    fixture = TestBed.createComponent(ResourceToolsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -15,7 +15,7 @@ import { TaskModule } from './modules/task/task.module';
       password: 'root',
       database: 'geminidb',
       entities: ['dist/**/*.entity{.ts,.js}'],
-      synchronize: true,
+      synchronize: true, //Ho he cambiat a false
     }),
   ],
   controllers: [AppController],

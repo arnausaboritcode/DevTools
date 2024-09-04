@@ -1,26 +1,44 @@
 <div
   *ngIf="task"
-  class="w-full bg-transparent shadow-gray-400/25 rounded-xl border border-gray-700 p-4"
+  class="w-full bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px] shadow-gray-700/25 rounded-xl cursor-pointer border border-gray-700 p-4 hover:scale-105 transition-all duration-300"
 >
   <div class="w-full flex flex-col justify-center items-start gap-3">
-    <h1 class="text-xl text-white text-pretty font-geist">
+    <h1 class="text-lg text-white text-pretty font-bold">
       {{ task.title }}
     </h1>
+
     <div class="flex flex-wrap items-center gap-2">
       <div
-        class="flex items-center gap-2 text-white text-sm text-pretty px-3 py-1 rounded-xl bg-gray-800"
+        class="flex items-center gap-2 text-white text-xs text-pretty px-3 py-1 rounded-md bg-transparent border border-gray-700"
       >
-        <i class="fa-solid fa-calendar text-xs"></i>
-        Anonymus
+        <i class="fa-solid fa-user text-[0.6rem]"></i>
+        {{ userRolesValues[task.user] }}
       </div>
       <div
-        class="flex items-center gap-2 text-white text-sm text-pretty px-3 py-1 rounded-xl bg-gray-800"
+        class="flex items-center gap-2 text-white text-xs text-pretty px-3 py-1 rounded-md bg-transparent border"
+        [ngClass]="{
+          'border-yellow-300': taskRaceLabels[task.type] === 'Extension',
+          'border-red-300': taskRaceLabels[task.type] === 'Resource'
+        }"
       >
-        <i class="fa-solid fa-calendar text-xs"></i>
-        {{ task.type }}
+        <i
+          class="fa-solid text-white text-xs"
+          [ngClass]="{
+            'fa-cloud-bolt ': taskRaceLabels[task.type] === 'Extension',
+            'fa-cloud ': taskRaceLabels[task.type] === 'Resource'
+          }"
+        ></i>
+        {{ taskRaceLabels[task.type] }}
+      </div>
+
+      <div
+        class="flex items-center gap-2 text-white text-xs text-pretty px-3 py-1 rounded-md bg-gray-800 border border-gray-700"
+      >
+        <i class="fa-solid fa-arrow-down-short-wide text-xs"></i>
+        {{ task.properties }}
       </div>
     </div>
-    <p class="text-sm text-gray-400 text-pretty">{{ task.description }}</p>
+    <p class="text-sm text-white/55 text-pretty">{{ task.description }}</p>
     <div class="w-full flex justify-center items-center"></div>
   </div>
 </div>

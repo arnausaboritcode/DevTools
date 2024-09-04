@@ -1,5 +1,4 @@
 export enum TaskRace {
-  FRONTEND,
-  BACKEND,
-  FULLSTACK,
+  Extension,
+  Resource,
 }

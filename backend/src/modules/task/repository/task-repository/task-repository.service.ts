@@ -1,4 +1,3 @@
-import { GoogleGenerativeAI } from '@google/generative-ai';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { from, Observable } from 'rxjs';
@@ -8,14 +7,9 @@ import { Task } from '../../entities/task.entity';
 
 @Injectable()
 export class TaskRepositoryService implements BaseRepository<Task> {
-  private generativeAI: GoogleGenerativeAI;
   constructor(
     @InjectRepository(Task) private readonly repository: Repository<Task>,
-  ) {
-    this.generativeAI = new GoogleGenerativeAI(
-      'AIzaSyCURwg7N8fVdLs9nxrd4rBD9Z-iEy2my3c',
-    );
-  }
+  ) {}
 
   get(): Observable<Task[]> {
     return from(this.repository.find());

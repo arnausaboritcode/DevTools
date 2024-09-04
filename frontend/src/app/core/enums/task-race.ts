@@ -1,5 +1,9 @@
 export enum TaskRace {
-  FRONTEND,
-  BACKEND,
-  FULLSTACK,
+  Extension,
+  Resource,
 }
+
+export const taskRaceLabels: Record<TaskRace, string> = {
+  [TaskRace.Extension]: 'Extension',
+  [TaskRace.Resource]: 'Resource',
+};

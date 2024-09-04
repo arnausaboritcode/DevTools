@@ -1,0 +1,94 @@
+<div
+  class="w-full relative flex md:flex-row flex-col justify-center items-center md:items-start gap-10 mt-10"
+>
+  <div class="md:w-1/5 w-full flex flex-col items-center">
+    <aside id="sidebar" class="z-50 w-full h-full" aria-label="sidebar">
+      <div class="h-full w-full px-3 py-4 overflow-y-auto">
+        <div class="flex items-center gap-3 mb-10">
+          <i
+            class="fa-solid fa-arrow-down-short-wide text-sm"
+            [ngClass]="{
+              'text-orange-300': isActive('/dev-tools'),
+              'text-yellow-300': isActive('/dev-tools/extensions'),
+              'text-red-300': isActive('/dev-tools/resources')
+            }"
+          ></i>
+          <h1 class="text-lg font-bold text-white">Filtra por categoría</h1>
+        </div>
+
+        <form [formGroup]="propertiesForm">
+          <ul class="flex items-center flex-wrap gap-4">
+            <li
+              *ngFor="let property of propertiesOptions; let i = index"
+              class="flex items-center"
+            >
+              <input
+                id="checkbox-{{ i }}"
+                type="radio"
+                [value]="property"
+                class="hidden peer"
+                formControlName="property"
+              />
+              <label
+                for="checkbox-{{ i }}"
+                class="peer-checked:bg-white peer-checked:text-gray-800 text-xs text-white bg-gray-800 border border-gray-700 px-4 py-1.5 cursor-pointer rounded-xl font-semibold hover:scale-105 hover:bg-gray-700 transition-all duration-300"
+                >{{ property }}</label
+              >
+            </li>
+            <li>
+              <button
+                *ngIf="propertiesForm.get('property')?.value"
+                class="flex items-center gap-2 text-white font-semibold text-xs bg-red-600 px-4 py-1.5 cursor-pointer rounded-xl border border-gray-700 hover:scale-105 hover:bg-red-500 transition-all duration-300"
+                (click)="resetFilters()"
+              >
+                <i class="fa-solid fa-eraser text-xs text-red-300"></i>
+                Borrar filtros
+              </button>
+            </li>
+          </ul>
+        </form>
+      </div>
+    </aside>
+  </div>
+  <div class="md:w-4/5 w-full flex flex-col items-center">
+    <div class="relative w-full">
+      <div
+        class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
+      >
+        <i
+          class="fa-solid fa-magnifying-glass text-sm"
+          [ngClass]="{
+            'text-orange-300': isActive('/dev-tools'),
+            'text-yellow-300': isActive('/dev-tools/extensions'),
+            'text-red-300': isActive('/dev-tools/resources')
+          }"
+        ></i>
+      </div>
+      <input
+        type="search"
+        id="search"
+        class="block w-full p-4 ps-10 text-sm text-white rounded-2xl bg-transparent border border-gray-700 focus:ring-1 focus:ring-gray-500 placeholder-gray-400"
+        [placeholder]="placeholderText"
+        [(ngModel)]="query"
+        (input)="subscribeToInputChanges()"
+      />
+    </div>
+
+    <div
+      *ngIf="searchedResults"
+      class="w-full grid gap-4 mt-8 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3"
+    >
+      <app-task *ngFor="let task of searchedResults" [task]="task"></app-task>
+    </div>
+
+    <div
+      *ngIf="searchedResults.length < 1"
+      class="w-full h-full flex items-center justify-center gap-4 mt-20"
+    >
+      <i class="fa-solid fa-file-excel text-base text-red-300"></i>
+      <p class="text-white text-pretty font-bold text-base">
+        No hay resultados
+      </p>
+    </div>
+  </div>
+</div>
