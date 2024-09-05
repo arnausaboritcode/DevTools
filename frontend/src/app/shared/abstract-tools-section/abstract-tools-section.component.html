@@ -74,18 +74,15 @@
       />
     </div>
 
-    <div
-      *ngIf="searchedResults"
-      class="w-full grid gap-4 mt-8 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3"
-    >
+    <div *ngIf="searchedResults" class="w-full flex flex-col mt-10">
       <app-task *ngFor="let task of searchedResults" [task]="task"></app-task>
     </div>
 
     <div
       *ngIf="searchedResults.length < 1"
-      class="w-full h-full flex items-center justify-center gap-4 mt-20"
+      class="w-full h-full flex items-center justify-center gap-4 mt-16"
     >
-      <i class="fa-solid fa-file-excel text-base text-red-300"></i>
+      <i class="fa-solid fa-folder-open text-base text-white"></i>
       <p class="text-white text-pretty font-bold text-base">
         No hay resultados
       </p>

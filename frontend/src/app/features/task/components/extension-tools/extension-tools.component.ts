@@ -23,7 +23,7 @@ export class ExtensionToolsComponent extends AbstractToolsSectionComponent {
     return tasks.filter((task) => task.type === TaskRace.Extension);
   }
 
-  override propertiesOptions: string[] = ['VsCode', 'Google Chrome'];
+  override propertiesOptions: string[] = ['Vs Code', 'Google Chrome', 'Figma'];
 
   override placeholderText: string = 'Descubre extensiones...';
 }

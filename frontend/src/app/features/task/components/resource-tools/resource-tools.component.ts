@@ -24,7 +24,14 @@ export class ResourceToolsComponent extends AbstractToolsSectionComponent {
     return tasks.filter((task) => task.type === TaskRace.Resource);
   }
 
-  override propertiesOptions: string[] = ['Optimization', 'Styling', 'Testing'];
+  override propertiesOptions: string[] = [
+    'Documentación',
+    'Rendimiento y Optimización',
+    'APIs',
+    'Librería y Frameworks',
+    'Assets',
+    'Testing y Depuración',
+  ];
 
   override placeholderText: string = 'Descubre recursos...';
 }

@@ -40,12 +40,20 @@ export class ToolsPageComponent implements OnInit {
   description: FormControl;
   type: FormControl;
   properties: FormControl;
+  link: FormControl;
   createResource: FormGroup;
   isValidForm: boolean | null;
 
   propertiesOptions: { [key: string]: string[] } = {
-    '0': ['VsCode', 'Google Chrome'],
-    '1': ['Optimization', 'Styling', 'Testing'],
+    '0': ['Vs Code', 'Google Chrome', 'Figma'],
+    '1': [
+      'Documentación',
+      'Rendimiento y Optimización',
+      'APIs',
+      'Librería y Frameworks',
+      'Assets',
+      'Testing y Depuración',
+    ],
   };
 
   constructor(
@@ -62,26 +70,34 @@ export class ToolsPageComponent implements OnInit {
       '',
       0,
       this.propertiesOptions[0][0],
+      '',
       0,
       new Date()
     );
     this.isValidForm = null;
     this.title = new FormControl(this.resource.title, [
       Validators.required,
-      Validators.pattern(/^[A-Za-z]{1,10}$/),
+      Validators.pattern(/^[A-Za-zÀ-ÖØ-Ýà-öø-ÿ\s]{1,30}$/),
     ]);
     this.description = new FormControl(this.resource.description, [
       Validators.required,
-      Validators.pattern(/^[A-Za-z\s\W]{1,50}$/),
+      Validators.pattern(/^[A-Za-zÀ-ÖØ-Ýà-öø-ÿ\s.,!?'"(){}[\]@#-]{1,90}$/),
     ]);
     this.type = new FormControl(this.resource.type, []);
     this.properties = new FormControl(this.resource.properties, []);
+    this.link = new FormControl(this.resource.link, [
+      Validators.required,
+      Validators.pattern(
+        /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,6}(\/[^\s]*)?$/
+      ),
+    ]);
 
     this.createResource = this.formBuilder.group({
       title: this.title,
       description: this.description,
       type: this.type,
       properties: this.properties,
+      link: this.link,
     });
   }
 

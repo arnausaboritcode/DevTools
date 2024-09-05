@@ -4,6 +4,6 @@ export enum UserRole {
 }
 
 export const userRolesValues: Record<UserRole, string> = {
-  [UserRole.Admin]: 'Admin',
-  [UserRole.Anonymous]: 'Anonymous',
+  [UserRole.Admin]: 'Administrador',
+  [UserRole.Anonymous]: 'Anónimo',
 };

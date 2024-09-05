@@ -19,6 +19,8 @@ export class Task {
   type: TaskRace;
   @Column({ nullable: true })
   properties: string;
+  @Column({ nullable: true })
+  link: string;
   @Column({ type: 'enum', enum: UserRole, default: UserRole.Anonymous })
   user: UserRole;
   @CreateDateColumn({ type: 'timestamp' })

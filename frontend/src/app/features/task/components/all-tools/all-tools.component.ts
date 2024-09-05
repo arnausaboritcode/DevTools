@@ -24,11 +24,15 @@ export class AllToolsComponent extends AbstractToolsSectionComponent {
   }
 
   override propertiesOptions: string[] = [
-    'VsCode',
+    'Vs Code',
     'Google Chrome',
-    'Optimization',
-    'Styling',
-    'Testing',
+    'Figma',
+    'Documentación',
+    'Rendimiento y Optimización',
+    'APIs',
+    'Librería y Frameworks',
+    'Assets',
+    'Testing y Depuración',
   ];
 
   override placeholderText: string = 'Descubre todas las herramientas...';

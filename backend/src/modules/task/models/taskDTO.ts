@@ -7,6 +7,7 @@ export interface TaskDTO {
   description: string;
   type: TaskRace;
   properties: string;
+  link: string;
   user: UserRole;
   createdAt: Date;
 }

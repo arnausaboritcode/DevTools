@@ -7,6 +7,7 @@ export class TaskDto {
   description: string;
   type: TaskRace;
   properties: string;
+  link: string;
   user: UserRole;
   createdAt?: Date;
 
@@ -16,6 +17,7 @@ export class TaskDto {
     description: string,
     type: TaskRace,
     properties: string,
+    link: string,
     user: UserRole,
     createdAt: Date
   ) {
@@ -24,6 +26,7 @@ export class TaskDto {
     this.description = description;
     this.type = type;
     this.properties = properties;
+    this.link = link;
     this.user = user;
     this.createdAt = createdAt;
   }

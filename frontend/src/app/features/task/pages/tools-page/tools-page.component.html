@@ -70,7 +70,7 @@
               </div>
               <div *ngIf="title.errors['pattern']">
                 <small class="text-xs text-red-300"
-                  >El título debe tener menos de 10 carácteres, utilizando solo
+                  >El título debe tener menos de 30 carácteres, utilizando solo
                   letras.</small
                 >
               </div>
@@ -104,8 +104,42 @@
               </div>
               <div *ngIf="description.errors['pattern']">
                 <small class="text-xs text-red-300"
-                  >La descripción debe tener menos de 50 carácteres, utilizando
+                  >La descripción debe tener menos de 90 carácteres, utilizando
                   letras y/o carácteres especiales.</small
+                >
+              </div>
+            </div>
+          </div>
+          <div class="relative mb-4">
+            <label
+              for="email"
+              class="leading-9 text-sm font-semibold text-white"
+              >Link</label
+            >
+            <input
+              type="link"
+              id="link"
+              name="link"
+              placeholder="e.g. https://cloudflare.com"
+              formControlName="link"
+              class="w-full bg-transparent rounded-xl border border-gray-700 focus:ring-1 focus:ring-gray-500 disabled:cursor-not-allowed disabled:opacity-50 text-sm outline-none text-white py-1 px-3 leading-8 transition-colors duration-200 ease-in-out placeholder:text-white/55"
+            />
+            <div
+              class="mt-2"
+              *ngIf="
+                link.errors &&
+                ((link.invalid && link.dirty) ||
+                  (link.invalid && isValidForm != null && !isValidForm))
+              "
+            >
+              <div *ngIf="link.errors['required']">
+                <small class="text-xs text-red-300"
+                  >El link es obligatorio</small
+                >
+              </div>
+              <div *ngIf="link.errors['pattern']">
+                <small class="text-xs text-red-300"
+                  >El link debe tener un formato válido</small
                 >
               </div>
             </div>
@@ -200,7 +234,7 @@
         routerLinkActive="border-b"
         [routerLinkActiveOptions]="{ exact: true }"
       >
-        <i class="fa-solid fa-cloud-bolt text-yellow-300"></i>
+        <i class="fa-solid fa-gears text-yellow-300"></i>
         Extensiones
       </button>
       <button
@@ -209,8 +243,8 @@
         routerLinkActive="border-b"
         [routerLinkActiveOptions]="{ exact: true }"
       >
-        <i class="fa-solid fa-cloud text-red-300"></i>
-        Recursps
+        <i class="fa-solid fa-layer-group text-red-300"></i>
+        Recursos
       </button>
     </div>
   </div>

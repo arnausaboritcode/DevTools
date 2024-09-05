@@ -4,6 +4,6 @@ export enum TaskRace {
 }
 
 export const taskRaceLabels: Record<TaskRace, string> = {
-  [TaskRace.Extension]: 'Extension',
-  [TaskRace.Resource]: 'Resource',
+  [TaskRace.Extension]: 'Extensión',
+  [TaskRace.Resource]: 'Recurso',
 };
