@@ -11,8 +11,14 @@ export class TaskRepositoryService implements BaseRepository<Task> {
     @InjectRepository(Task) private readonly repository: Repository<Task>,
   ) {}
 
-  get(): Observable<Task[]> {
-    return from(this.repository.find());
+  get(page: number, limit: number): Observable<Task[]> {
+    const offset = (page - 1) * limit;
+    return from(
+      this.repository.find({
+        skip: offset,
+        take: limit,
+      }),
+    );
   }
 
   getById(id: string): Observable<Task> {

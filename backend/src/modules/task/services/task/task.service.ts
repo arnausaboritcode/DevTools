@@ -8,8 +8,8 @@ import { TaskRepositoryService } from '../../repository/task-repository/task-rep
 export class TaskService {
   constructor(private readonly repository: TaskRepositoryService) {}
 
-  get(): Observable<TaskDTO[]> {
-    return this.repository.get();
+  get(page: number, limit: number): Observable<TaskDTO[]> {
+    return this.repository.get(page, limit);
   }
 
   getById(id: string): Observable<TaskDTO> {

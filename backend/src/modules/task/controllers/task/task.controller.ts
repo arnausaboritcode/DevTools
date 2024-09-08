@@ -17,8 +17,11 @@ export class TaskController {
   constructor(private readonly taskService: TaskService) {}
 
   @Get()
-  async get(): Promise<TaskDTO[]> {
-    const tasks = await firstValueFrom(this.taskService.get());
+  async get(
+    @Query('page') page: number,
+    @Query('limit') limit: number,
+  ): Promise<TaskDTO[]> {
+    const tasks = await firstValueFrom(this.taskService.get(page, limit));
     return tasks;
   }
 

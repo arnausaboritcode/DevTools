@@ -1,33 +1,24 @@
 import { Routes } from '@angular/router';
 import { LayoutComponent } from './core/layout/layout.component';
-import { AllToolsComponent } from './features/task/components/all-tools/all-tools.component';
-import { ExtensionToolsComponent } from './features/task/components/extension-tools/extension-tools.component';
-import { ResourceToolsComponent } from './features/task/components/resource-tools/resource-tools.component';
-import { ToolsPageComponent } from './features/task/pages/tools-page/tools-page.component';
+import { FormPageComponent } from './features/task/pages/form-page/form-page.component';
 
 export const routes: Routes = [
   {
     path: '',
     component: LayoutComponent,
     children: [
-      { path: '', redirectTo: 'dev-tools', pathMatch: 'full' },
+      { path: '', redirectTo: 'tools', pathMatch: 'full' },
       {
-        path: 'dev-tools',
-        component: ToolsPageComponent,
-        children: [
-          { path: '', component: AllToolsComponent },
-          {
-            path: 'extensions',
-            component: ExtensionToolsComponent,
-          },
-          {
-            path: 'resources',
-            component: ResourceToolsComponent,
-          },
-        ],
+        path: 'tools',
+        loadChildren: () =>
+          import('./features/task/task.routes').then((m) => m.TASK_ROUTES),
         title: 'Tools page',
+      },
+      {
+        path: 'generate',
+        component: FormPageComponent,
       },
     ],
   },
-  { path: '**', redirectTo: 'dev-tools' },
+  { path: '**', redirectTo: 'tools' },
 ];

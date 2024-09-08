@@ -8,9 +8,9 @@
           <i
             class="fa-solid fa-arrow-down-short-wide text-sm"
             [ngClass]="{
-              'text-orange-300': isActive('/dev-tools'),
-              'text-yellow-300': isActive('/dev-tools/extensions'),
-              'text-red-300': isActive('/dev-tools/resources')
+              'text-orange-300': isActive('/tools'),
+              'text-yellow-300': isActive('/tools/extensions'),
+              'text-red-300': isActive('/tools/resources')
             }"
           ></i>
           <h1 class="text-lg font-bold text-white">Filtra por categoría</h1>
@@ -58,29 +58,41 @@
         <i
           class="fa-solid fa-magnifying-glass text-sm"
           [ngClass]="{
-            'text-orange-300': isActive('/dev-tools'),
-            'text-yellow-300': isActive('/dev-tools/extensions'),
-            'text-red-300': isActive('/dev-tools/resources')
+            'text-orange-300': isActive('/tools'),
+            'text-yellow-300': isActive('/tools/extensions'),
+            'text-red-300': isActive('/tools/resources')
           }"
         ></i>
       </div>
       <input
         type="search"
         id="search"
-        class="block w-full p-4 ps-10 text-sm text-white rounded-2xl bg-transparent border border-gray-700 focus:ring-1 focus:ring-gray-500 placeholder-gray-400"
+        class="block w-full p-4 ps-10 text-sm text-white rounded-2xl bg-transparent border border-gray-700 focus:ring-1 focus:ring-gray-500 placeholder:text-white/55"
         [placeholder]="placeholderText"
         [(ngModel)]="query"
         (input)="subscribeToInputChanges()"
       />
     </div>
 
-    <div *ngIf="searchedResults" class="w-full flex flex-col mt-10">
+    <div
+      infiniteScroll
+      [infiniteScrollDistance]="2"
+      [infiniteScrollThrottle]="50"
+      (scrolled)="onScroll()"
+      *ngIf="searchedResults && searchedResults.length > 0"
+      class="w-full flex flex-col mt-10"
+    >
       <app-task *ngFor="let task of searchedResults" [task]="task"></app-task>
     </div>
 
+    <app-task-skeleton
+      class="w-full flex flex-col mt-10"
+      *ngIf="skeleton"
+    ></app-task-skeleton>
+
     <div
       *ngIf="searchedResults.length < 1"
-      class="w-full h-full flex items-center justify-center gap-4 mt-16"
+      class="w-full h-full flex items-center justify-center gap-4 p-16"
     >
       <i class="fa-solid fa-folder-open text-base text-white"></i>
       <p class="text-white text-pretty font-bold text-base">

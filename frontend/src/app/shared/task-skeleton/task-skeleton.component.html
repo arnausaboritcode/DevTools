@@ -1,0 +1,35 @@
+<div
+  *ngFor="let task of numberOfSkeletons"
+  class="animate-pulse flex items-center justify-start gap-x-6 w-full bg-white/5 rounded-xl cursor-pointer py-6 px-3 group relative mb-3"
+>
+  <div class="w-fit flex flex-col justify-center items-start">
+    <div class="w-20 h-20 bg-white/10 p-4 rounded-full"></div>
+  </div>
+  <div class="w-full flex flex-col justify-center items-start">
+    <div class="flex items-center gap-3">
+      <div class="h-3.5 bg-white/10 rounded-full w-36 mb-3"></div>
+    </div>
+
+    <div class="h-2.5 bg-white/10 rounded-full w-9/12"></div>
+
+    <div class="flex flex-wrap items-center gap-3 mt-4">
+      <div
+        class="flex items-center gap-2 text-white/55 text-xs text-pretty rounded-md bg-transparent"
+      >
+        <div class="h-2.5 bg-white/10 rounded-full w-20"></div>
+      </div>
+
+      <div
+        class="flex items-center gap-2 text-white/55 text-xs text-pretty rounded-md bg-transparent"
+      >
+        <div class="h-2.5 bg-white/10 rounded-full w-20"></div>
+      </div>
+
+      <div
+        class="flex items-center gap-2 text-white/55 text-xs text-pretty rounded-md bg-transparent"
+      >
+        <div class="h-2.5 bg-white/10 rounded-full w-20"></div>
+      </div>
+    </div>
+  </div>
+</div>
