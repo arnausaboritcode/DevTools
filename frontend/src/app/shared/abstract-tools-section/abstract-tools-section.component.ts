@@ -14,7 +14,8 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
-import { switchMap, takeUntil, tap } from 'rxjs';
+import { Subject, switchMap, takeUntil, tap } from 'rxjs';
+import { FiltersDto } from '../../core/models/filtersDto';
 import { TaskDto } from '../../core/models/taskDto';
 import { AutoDestroyService } from '../../core/services/utils/auto-destroy.service';
 import { TaskService } from '../../features/task/services/task-service.service';
@@ -37,24 +38,20 @@ import { TaskComponent } from '../task/task.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export abstract class AbstractToolsSectionComponent implements OnInit {
-  storedTasks: TaskDto[];
+  results: TaskDto[];
+  filters: FiltersDto;
+  onFilterChange$: Subject<FiltersDto> = new Subject<FiltersDto>();
 
-  query: string;
-  searchedResults: TaskDto[];
-  originalTasks: TaskDto[];
+  skeleton: boolean;
+  hasMoreTasks: boolean;
+  windowScrolled: boolean;
 
-  propertiesOptions: string[] = [];
+  placeholderText: string;
 
   propertiesForm: FormGroup;
   property: FormControl;
 
-  placeholderText: string = '';
-
-  skeleton: boolean;
-
-  currentPage: number = 1;
-  limit: number = 10;
-  hasMoreTasks: boolean = true;
+  propertiesOptions: string[];
 
   protected readonly taskService: TaskService = inject(TaskService);
   protected readonly destroy$: AutoDestroyService = inject(AutoDestroyService);
@@ -62,10 +59,17 @@ export abstract class AbstractToolsSectionComponent implements OnInit {
   protected readonly router: Router = inject(Router);
 
   constructor() {
-    this.storedTasks = [];
-    this.query = '';
-    this.searchedResults = [];
-    this.originalTasks = [];
+    this.results = [];
+    this.filters = {
+      page: 1,
+      limit: 10,
+      query: '',
+    };
+    this.hasMoreTasks = true;
+    this.skeleton = false;
+    this.windowScrolled = false;
+
+    this.placeholderText = '';
 
     this.property = new FormControl('', []);
 
@@ -73,40 +77,30 @@ export abstract class AbstractToolsSectionComponent implements OnInit {
       property: this.property,
     });
 
-    this.skeleton = false;
+    this.propertiesOptions = [];
   }
 
   ngOnInit(): void {
-    this.taskService
-      .getTasks(this.currentPage, this.limit)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((storedTasks: TaskDto[]) => {
-        this.storedTasks = this.filterTasks(storedTasks);
-        console.dir(this.storedTasks);
-        this.searchedResults = [...this.storedTasks];
-        console.dir(this.searchedResults);
-        this.originalTasks = [...this.storedTasks];
-      });
-
     this.taskService.searchTerms$
       .pipe(
         takeUntil(this.destroy$),
-        tap(() => (this.searchedResults = [])),
+        tap(() => (this.results = [])),
         switchMap((query: string) => {
-          if (query.trim() === '') {
-            return this.taskService.getTasks(this.currentPage, this.limit);
-          } else {
-            return this.taskService.searchTasks(query);
-          }
+          this.filters.query = query;
+          this.filters.page = 1;
+          return this.taskService.getTasks(this.filters);
         })
       )
       .subscribe((results) => {
-        this.searchedResults = this.filterTasks(results);
-        this.originalTasks = [...this.searchedResults];
-        if (this.propertiesForm.get('property')?.value) {
-          this.applyFilter(this.propertiesForm.get('property')?.value);
-        }
+        this.results = results;
+        this.hasMoreTasks = this.results.length >= this.filters.limit;
       });
+
+    this.subscribeToInputChanges();
+
+    this.subscribeToFormChanges();
+
+    this.subscribeToFiltersChanges();
 
     this.taskService.skeleton$
       .pipe(takeUntil(this.destroy$))
@@ -114,15 +108,19 @@ export abstract class AbstractToolsSectionComponent implements OnInit {
         this.skeleton = skeleton;
       });
 
-    this.subscribeToInputChanges();
-
-    this.subscribeToFormChanges();
+    if (typeof window !== 'undefined') {
+      window.addEventListener('scroll', () => {
+        const element = document.getElementById('search');
+        if (element) {
+          const rect = element.getBoundingClientRect();
+          this.windowScrolled = rect.bottom <= 0;
+        }
+      });
+    }
   }
 
-  protected abstract filterTasks(tasks: TaskDto[]): TaskDto[];
-
   subscribeToInputChanges(): void {
-    this.taskService.setQueryString(this.query);
+    this.taskService.setQueryString(this.filters.query!);
   }
 
   subscribeToFormChanges(): void {
@@ -130,45 +128,75 @@ export abstract class AbstractToolsSectionComponent implements OnInit {
       .get('property')
       ?.valueChanges.pipe(takeUntil(this.destroy$))
       .subscribe((value) => {
-        this.searchedResults = [...this.originalTasks];
         this.applyFilter(value);
       });
   }
 
   applyFilter(value: string) {
-    this.searchedResults = this.searchedResults.filter((task) =>
-      value.includes(task.properties)
-    );
+    this.filters = {
+      ...this.filters,
+      page: 1,
+      property: value,
+    };
+
+    this.onFilterChange$.next(this.filters);
+
+    this.hasMoreTasks = this.results.length >= this.filters.limit;
   }
 
   resetFilters(): void {
     this.propertiesForm.get('property')?.setValue('');
-    this.searchedResults = [...this.originalTasks];
+    delete this.filters.property;
+    this.onFilterChange$.next(this.filters);
+
+    this.hasMoreTasks = true;
+    this.filters.page = 1;
   }
 
-  isActive(route: string): boolean {
-    return this.router.isActive(route, true);
+  subscribeToFiltersChanges(): void {
+    this.onFilterChange$
+      .pipe(
+        takeUntil(this.destroy$),
+        tap(() => (this.results = [])),
+        switchMap((filters: FiltersDto) => this.taskService.getTasks(filters))
+      )
+      .subscribe((results) => {
+        this.results = results;
+        this.hasMoreTasks = this.results.length >= this.filters.limit;
+      });
   }
 
   onScroll(): void {
     if (!this.hasMoreTasks) {
       return;
     }
-    this.currentPage++;
+
+    this.filters.page++;
+
     this.taskService
-      .getTasks(this.currentPage, this.limit)
+      .getTasks(this.filters)
       .pipe(takeUntil(this.destroy$))
-      .subscribe((storedTasks: TaskDto[]) => {
-        if (this.filterTasks(storedTasks).length === 0) {
+      .subscribe((newResults: TaskDto[]) => {
+        if (newResults.length === 0) {
           this.hasMoreTasks = false;
           return;
         }
-        this.storedTasks = [
-          ...this.storedTasks,
-          ...this.filterTasks(storedTasks),
-        ];
-        this.searchedResults = [...this.storedTasks];
-        this.originalTasks = [...this.storedTasks];
+
+        this.hasMoreTasks = newResults.length >= this.filters.limit;
+
+        this.results = [...this.results, ...newResults];
       });
+  }
+
+  trackByTaskId(index: number, task: TaskDto): number {
+    return +task.id!;
+  }
+
+  isActive(route: string): boolean {
+    return this.router.isActive(route, true);
+  }
+
+  scrollToTop(): void {
+    window.scrollTo(0, 0);
   }
 }

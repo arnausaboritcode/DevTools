@@ -1,27 +1,29 @@
-<form
-  class="w-full max-w-screen-2xl mx-auto flex justify-center items-center mt-20 pb-20 md:px-20 px-10"
-  [formGroup]="createResource"
-  (ngSubmit)="create()"
+<div
+  class="w-full max-w-screen-2xl mx-auto flex flex-col justify-center items-center mt-20 pb-20 md:px-20 px-10"
 >
-  <div class="w-full flex flex-col relative">
-    <div class="flex items-center justify-center gap-3">
-      <h1
-        class="w-[26rem] text-xl md:text-2xl font-geist text-pretty text-center text-white"
-      >
-        <span class="text-orange-200">Comparte</span> tu
-        <span class="text-yellow-200">herramienta </span>
-        <span class="text-red-200">favorita</span>
-      </h1>
-    </div>
+  <div class="w-full flex items-center justify-center gap-3 relative">
+    <h1
+      class="w-[26rem] text-xl md:text-2xl font-geist text-pretty text-center text-white"
+    >
+      <span class="text-orange-200">Comparte</span> tu
+      <span class="text-yellow-200">herramienta </span>
+      <span class="text-red-200">favorita</span>
+    </h1>
 
     <button
-      class="absolute md:left-0 md:top-0 top-[-60px] left-[-10px] text-white text-xs font-bold flex items-center gap-x-3 bg-gray-800 border border-gray-700 rounded-xl px-4 py-2 hover:scale-105 hover:bg-gray-700 transition-all duration-300"
-      [routerLink]="['/dev-tools']"
+      class="absolute md:left-0 md:top-0 top-[-60px] left-[-10px] text-white text-xs flex items-center gap-x-3 bg-gray-800 border border-gray-700 rounded-xl px-4 py-2 hover:scale-105 hover:bg-gray-700 transition-all duration-300"
+      [routerLink]="['/tools']"
     >
       <i class="fa-solid fa-circle-left text-sm"></i>
       Volver
     </button>
+  </div>
 
+  <form
+    class="w-full flex flex-col"
+    [formGroup]="createResource"
+    (ngSubmit)="create()"
+  >
     <p
       class="md:text-base text-sm leading-relaxed mb-5 text-white/55 text-center text-pretty mt-2"
     >
@@ -164,10 +166,10 @@
         class="w-full md:w-80 h-10 text-gray-800 font-bold bg-white py-2 px-6 hover:scale-105 rounded-xl text-base transition-all duration-300"
       >
         <span *ngIf="!spinner" class="flex items-center justify-center gap-x-3">
-          <i class="fa-solid fa-upload"></i>Añadir</span
+          <i class="fa-solid fa-cloud-arrow-up"></i>Añadir</span
         >
         <app-spinner *ngIf="spinner"></app-spinner>
       </button>
     </div>
-  </div>
-</form>
+  </form>
+</div>

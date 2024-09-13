@@ -23,7 +23,7 @@ export class SnackBarServiceService {
       tapToDismiss: true,
       timeOut: 3000,
       messageClass: 'text-xs',
-      toastClass: 'ngx-toastr top-4 !rounded-lg flex items-center',
+      toastClass: 'ngx-toastr top-4 !rounded-lg flex items-center !shadow-none',
     });
   }
 }

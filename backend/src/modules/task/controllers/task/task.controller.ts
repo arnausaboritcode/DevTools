@@ -9,6 +9,7 @@ import {
 } from '@nestjs/common';
 import { firstValueFrom } from 'rxjs';
 import { DeleteResult } from 'typeorm';
+import { FiltersDTO } from '../../models/filtersDTO';
 import { TaskDTO } from '../../models/taskDTO';
 import { TaskService } from '../../services/task/task.service';
 
@@ -20,14 +21,18 @@ export class TaskController {
   async get(
     @Query('page') page: number,
     @Query('limit') limit: number,
+    @Query('type') type?: number,
+    @Query('property') property?: string,
+    @Query('query') query?: string,
   ): Promise<TaskDTO[]> {
-    const tasks = await firstValueFrom(this.taskService.get(page, limit));
-    return tasks;
-  }
-
-  @Get('search')
-  async searchTask(@Query('query') query: string): Promise<TaskDTO[]> {
-    const tasks = await firstValueFrom(this.taskService.search(query));
+    const filters: FiltersDTO = {
+      page: page || 1,
+      limit: limit || 10,
+      type,
+      property,
+      query,
+    };
+    const tasks = await firstValueFrom(this.taskService.get(filters));
     return tasks;
   }
 

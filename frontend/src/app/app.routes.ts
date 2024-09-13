@@ -12,11 +12,11 @@ export const routes: Routes = [
         path: 'tools',
         loadChildren: () =>
           import('./features/task/task.routes').then((m) => m.TASK_ROUTES),
-        title: 'Tools page',
       },
       {
         path: 'generate',
         component: FormPageComponent,
+        title: 'DevHunt - Generar herramientas',
       },
     ],
   },

@@ -9,16 +9,21 @@ export const TASK_ROUTES: Routes = [
     path: '',
     component: ToolsPageComponent,
     children: [
-      { path: '', component: AllToolsComponent },
+      {
+        path: '',
+        component: AllToolsComponent,
+        title: 'DevHunt - Herramientas',
+      },
       {
         path: 'extensions',
         component: ExtensionToolsComponent,
+        title: 'DevHunt - Extensiones',
       },
       {
         path: 'resources',
         component: ResourceToolsComponent,
+        title: 'DevHunt - Recursos',
       },
     ],
-    title: 'Tools page',
   },
 ];

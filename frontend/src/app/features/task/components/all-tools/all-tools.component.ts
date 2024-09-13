@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
-import { TaskDto } from '../../../../core/models/taskDto';
 import { AbstractToolsSectionComponent } from '../../../../shared/abstract-tools-section/abstract-tools-section.component';
 import { TaskSkeletonComponent } from '../../../../shared/task-skeleton/task-skeleton.component';
 import { TaskComponent } from '../../../../shared/task/task.component';
@@ -26,10 +25,6 @@ import { TaskComponent } from '../../../../shared/task/task.component';
 export class AllToolsComponent extends AbstractToolsSectionComponent {
   constructor() {
     super();
-  }
-
-  protected filterTasks(tasks: TaskDto[]): TaskDto[] {
-    return tasks;
   }
 
   override propertiesOptions: string[] = [

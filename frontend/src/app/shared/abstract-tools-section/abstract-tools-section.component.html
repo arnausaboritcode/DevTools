@@ -69,29 +69,47 @@
         id="search"
         class="block w-full p-4 ps-10 text-sm text-white rounded-2xl bg-transparent border border-gray-700 focus:ring-1 focus:ring-gray-500 placeholder:text-white/55"
         [placeholder]="placeholderText"
-        [(ngModel)]="query"
+        [(ngModel)]="this.filters.query"
         (input)="subscribeToInputChanges()"
       />
     </div>
 
     <div
       infiniteScroll
-      [infiniteScrollDistance]="2"
-      [infiniteScrollThrottle]="50"
+      [infiniteScrollDistance]="1"
+      [infiniteScrollThrottle]="300"
       (scrolled)="onScroll()"
-      *ngIf="searchedResults && searchedResults.length > 0"
       class="w-full flex flex-col mt-10"
+      *ngIf="results.length > 0"
     >
-      <app-task *ngFor="let task of searchedResults" [task]="task"></app-task>
-    </div>
+      <div class="w-full flex justify-center items-center">
+        <div
+          *ngIf="results"
+          class="w-fit opacity-0 z-50 fixed bottom-10 right-10 cursor-pointer flex justify-center transition-all duration-300"
+          [ngClass]="{ 'show-scrollTop': windowScrolled }"
+          (click)="scrollToTop()"
+        >
+          <a
+            class="flex justify-center items-center gap-x-3 text-white text-xs px-4 py-2 bg-gray-800 border border-gray-700 rounded-2xl hover:scale-105 hover:bg-gray-700 transition-all duration-300"
+          >
+            <i class="fa-solid fa-circle-up text-sm"></i>
+            Volver arriba
+          </a>
+        </div>
+      </div>
 
+      <app-task
+        *ngFor="let task of results; trackBy: trackByTaskId"
+        [task]="task"
+      ></app-task>
+    </div>
     <app-task-skeleton
       class="w-full flex flex-col mt-10"
       *ngIf="skeleton"
     ></app-task-skeleton>
 
     <div
-      *ngIf="searchedResults.length < 1"
+      *ngIf="results && results.length === 0"
       class="w-full h-full flex items-center justify-center gap-4 p-16"
     >
       <i class="fa-solid fa-folder-open text-base text-white"></i>

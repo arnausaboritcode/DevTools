@@ -15,3 +15,10 @@ input[type="search"]:focus::-webkit-search-cancel-button {
   opacity: .3;
   pointer-events: all;
 }
+
+.show-scrollTop {
+  opacity: 1;
+  transition: all 0.3s ease-in-out;
+}
+
+

@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { DeleteResult } from 'typeorm';
+import { FiltersDTO } from '../../models/filtersDTO';
 import { TaskDTO } from '../../models/taskDTO';
 import { TaskRepositoryService } from '../../repository/task-repository/task-repository.service';
 
@@ -8,8 +9,8 @@ import { TaskRepositoryService } from '../../repository/task-repository/task-rep
 export class TaskService {
   constructor(private readonly repository: TaskRepositoryService) {}
 
-  get(page: number, limit: number): Observable<TaskDTO[]> {
-    return this.repository.get(page, limit);
+  get(filters: FiltersDTO): Observable<TaskDTO[]> {
+    return this.repository.get(filters);
   }
 
   getById(id: string): Observable<TaskDTO> {
@@ -22,9 +23,5 @@ export class TaskService {
 
   delete(id: string): Observable<DeleteResult> {
     return this.repository.delete(id);
-  }
-
-  search(query: string): Observable<TaskDTO[]> {
-    return this.repository.search(query);
   }
 }

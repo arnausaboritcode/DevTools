@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, delay, finalize, Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment.development';
+import { FiltersDto } from '../../../core/models/filtersDto';
 import { TaskDto } from '../../../core/models/taskDto';
 
 @Injectable({
@@ -14,7 +15,7 @@ export class TaskService {
   searchTerms$: Observable<string> = this.searchTerms.asObservable();
 
   private skeleton: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
-    false
+    true
   );
   skeleton$: Observable<boolean> = this.skeleton.asObservable();
 
@@ -25,11 +26,10 @@ export class TaskService {
 
   constructor(private http: HttpClient) {}
 
-  getTasks(page: number, limit: number): Observable<TaskDto[]> {
-    const params = new HttpParams()
-      .set('page', page.toString())
-      .set('limit', limit.toString());
-
+  getTasks(filters: FiltersDto): Observable<TaskDto[]> {
+    const params = new HttpParams({
+      fromObject: { ...filters },
+    });
     this.skeleton.next(true);
     return this.http
       .get<TaskDto[]>(`${environment.BASE_API_URL_BACKEND}/task`, { params })
@@ -50,18 +50,6 @@ export class TaskService {
         finalize(() => {
           this.spinner.next(false);
         })
-      );
-  }
-
-  searchTasks(query: string): Observable<TaskDto[]> {
-    this.skeleton.next(true);
-    return this.http
-      .get<TaskDto[]>(
-        `${environment.BASE_API_URL_BACKEND}/task/search?query=${query}`
-      )
-      .pipe(
-        delay(500),
-        finalize(() => this.skeleton.next(false))
       );
   }
 

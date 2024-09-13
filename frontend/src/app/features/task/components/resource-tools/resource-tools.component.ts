@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { TaskRace } from '../../../../core/enums/task-race';
-import { TaskDto } from '../../../../core/models/taskDto';
+import { FiltersDto } from '../../../../core/models/filtersDto';
 import { AbstractToolsSectionComponent } from '../../../../shared/abstract-tools-section/abstract-tools-section.component';
 import { TaskSkeletonComponent } from '../../../../shared/task-skeleton/task-skeleton.component';
 import { TaskComponent } from '../../../../shared/task/task.component';
@@ -29,10 +29,6 @@ export class ResourceToolsComponent extends AbstractToolsSectionComponent {
     super();
   }
 
-  protected filterTasks(tasks: TaskDto[]): TaskDto[] {
-    return tasks.filter((task) => task.type === TaskRace.Resource);
-  }
-
   override propertiesOptions: string[] = [
     'Documentación',
     'Rendimiento y Optimización',
@@ -41,6 +37,12 @@ export class ResourceToolsComponent extends AbstractToolsSectionComponent {
     'Assets',
     'Testing y Depuración',
   ];
+
+  override filters: FiltersDto = {
+    page: 1,
+    limit: 10,
+    type: TaskRace.Resource,
+  };
 
   override placeholderText: string = 'Descubre recursos...';
 }

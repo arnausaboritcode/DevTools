@@ -104,6 +104,7 @@ export class FormPageComponent implements OnInit {
   create(): void {
     this.isValidForm = false;
     let responseOK: boolean = false;
+    let errorMessage: string = '';
 
     if (this.createResource.invalid) {
       return;
@@ -119,9 +120,11 @@ export class FormPageComponent implements OnInit {
         finalize(() => {
           if (responseOK) {
             this.snackBarService.showSuccess('Recurso creado correctamente');
-            this.router.navigateByUrl('/dev-tools');
+            this.router.navigateByUrl('/tools');
           } else {
-            this.snackBarService.showError('Error al crear el recurso');
+            this.snackBarService.showError(
+              `Error al crear el recurso: ${errorMessage} `
+            );
           }
         })
       )
@@ -131,7 +134,7 @@ export class FormPageComponent implements OnInit {
         },
         error: (error) => {
           responseOK = false;
-          console.error(error);
+          errorMessage = error.error.message;
         },
       });
   }
