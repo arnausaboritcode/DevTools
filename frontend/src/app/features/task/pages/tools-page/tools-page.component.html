@@ -1,14 +1,19 @@
 <div class="w-full max-w-screen-2xl mx-auto md:px-20 px-10 mt-20">
   <div class="flex flex-col items-center gap-10">
     <h1
-      class="w-[26rem] text-xl md:text-2xl font-geist text-pretty text-center text-white"
+      class="w-[28rem] text-2xl md:text-3xl font-geist text-pretty text-center bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 to-50% to-slate-200"
     >
-      <span class="text-orange-200">Explora</span>,
-      <span class="text-yellow-200">Aprende</span> y
-      <span class="text-red-200">Comparte</span> recursos esenciales
+      <span class="animate-textCycle animate-delay-[1s]">Explora</span>,
+      <span class="animate-textCycle animate-delay-[3s]">Aprende</span> y
+      <span class="animate-textCycle animate-delay-[2s]">Comparte</span>
+      recursos esenciales
+      <span
+        class="px-1.5 py-0.5 bg-white text-xs text-gray-800 rounded-full ml-2 inline-block transform -rotate-[10deg]"
+        >beta</span
+      >
     </h1>
 
-    <div class="flex justify-center items-center gap-4">
+    <div class="flex flex-wrap justify-center items-center gap-4">
       <a
         class="flex items-center gap-x-3 cursor-pointer text-gray-800 text-xs font-bold text-pretty px-4 py-2 rounded-xl bg-white border border-gray-700 hover:scale-105 transition-all duration-300"
         [routerLink]="['/generate']"
@@ -46,7 +51,7 @@
         routerLinkActive="border-b"
         [routerLinkActiveOptions]="{ exact: true }"
       >
-        <i class="fa-solid fa-border-all text-orange-300"></i>
+        <i class="fa-solid fa-border-all text-white"></i>
         Todos
       </button>
       <button

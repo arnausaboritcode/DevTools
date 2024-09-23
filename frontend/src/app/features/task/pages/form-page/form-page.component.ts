@@ -13,12 +13,13 @@ import { TaskDto } from '../../../../core/models/taskDto';
 import { SnackBarServiceService } from '../../../../core/services/common/snack-bar-service.service';
 import { AutoDestroyService } from '../../../../core/services/utils/auto-destroy.service';
 
-import { SpinnerComponent } from '../../../../shared/spinner/spinner.component';
+import { SpinnerComponent } from '../../../../shared/components/spinner/spinner.component';
 import { TaskService } from '../../services/task-service.service';
 
 @Component({
   selector: 'app-form-page',
   standalone: true,
+  providers: [AutoDestroyService],
   imports: [CommonModule, ReactiveFormsModule, SpinnerComponent, RouterModule],
   templateUrl: './form-page.component.html',
   styleUrl: './form-page.component.scss',
@@ -34,14 +35,13 @@ export class FormPageComponent implements OnInit {
   isValidForm: boolean | null;
 
   propertiesOptions: { [key: string]: string[] } = {
-    '0': ['Vs Code', 'Google Chrome', 'Figma'],
+    '0': ['Vs Code', 'Google Chrome'],
     '1': [
       'Documentación',
-      'Rendimiento y Optimización',
-      'APIs',
-      'Librería y Frameworks',
-      'Assets',
-      'Testing y Depuración',
+      'Rendimiento y Hosting',
+      'Recursos gráficos',
+      'Diseño y UX',
+      'Herramientas de desarrollo',
     ],
   };
 

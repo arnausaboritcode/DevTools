@@ -3,11 +3,11 @@
 >
   <div class="w-full flex items-center justify-center gap-3 relative">
     <h1
-      class="w-[26rem] text-xl md:text-2xl font-geist text-pretty text-center text-white"
+      class="w-[26rem] text-xl md:text-2xl font-geist text-pretty text-center bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 to-50% to-slate-200"
     >
-      <span class="text-orange-200">Comparte</span> tu
-      <span class="text-yellow-200">herramienta </span>
-      <span class="text-red-200">favorita</span>
+      <span class="animate-textCycle animate-delay-[1s]">Comparte</span> tu
+      <span class="animate-textCycle animate-delay-[3s]">herramienta </span>
+      <span class="animate-textCycle animate-delay-[2s]">favorita</span>
     </h1>
 
     <button
@@ -166,7 +166,7 @@
         class="w-full md:w-80 h-10 text-gray-800 font-bold bg-white py-2 px-6 hover:scale-105 rounded-xl text-base transition-all duration-300"
       >
         <span *ngIf="!spinner" class="flex items-center justify-center gap-x-3">
-          <i class="fa-solid fa-cloud-arrow-up"></i>Añadir</span
+          <i class="fa-solid fa-cloud-arrow-up text-sm"></i>Añadir</span
         >
         <app-spinner *ngIf="spinner"></app-spinner>
       </button>

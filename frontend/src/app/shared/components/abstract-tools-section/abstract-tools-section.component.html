@@ -6,11 +6,10 @@
       <div class="h-full w-full px-3 py-4 overflow-y-auto">
         <div class="flex items-center gap-3 mb-10">
           <i
-            class="fa-solid fa-arrow-down-short-wide text-sm"
+            class="fa-solid fa-arrow-down-short-wide text-sm text-white"
             [ngClass]="{
-              'text-orange-300': isActive('/tools'),
-              'text-yellow-300': isActive('/tools/extensions'),
-              'text-red-300': isActive('/tools/resources')
+              'text-yellow-300': filters.type === 0,
+              'text-red-300': filters.type === 1
             }"
           ></i>
           <h1 class="text-lg font-bold text-white">Filtra por categoría</h1>
@@ -56,11 +55,10 @@
         class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
       >
         <i
-          class="fa-solid fa-magnifying-glass text-sm"
+          class="fa-solid fa-magnifying-glass text-sm text-white"
           [ngClass]="{
-            'text-orange-300': isActive('/tools'),
-            'text-yellow-300': isActive('/tools/extensions'),
-            'text-red-300': isActive('/tools/resources')
+            'text-yellow-300': filters.type === 0,
+            'text-red-300': filters.type === 1
           }"
         ></i>
       </div>
@@ -76,11 +74,11 @@
 
     <div
       infiniteScroll
-      [infiniteScrollDistance]="1"
+      [infiniteScrollDistance]="0.5"
       [infiniteScrollThrottle]="300"
       (scrolled)="onScroll()"
       class="w-full flex flex-col mt-10"
-      *ngIf="results.length > 0"
+      *ngIf="results && results.length > 0"
     >
       <div class="w-full flex justify-center items-center">
         <div
@@ -99,8 +97,9 @@
       </div>
 
       <app-task
-        *ngFor="let task of results; trackBy: trackByTaskId"
+        *ngFor="let task of results; trackBy: trackByTaskId; let i = index"
         [task]="task"
+        [isLast]="i === results.length - 1"
       ></app-task>
     </div>
     <app-task-skeleton
@@ -109,13 +108,10 @@
     ></app-task-skeleton>
 
     <div
-      *ngIf="results && results.length === 0"
-      class="w-full h-full flex items-center justify-center gap-4 p-16"
+      *ngIf="results.length === 0"
+      class="w-full flex flex-col justify-center items-center py-20 md:text-base text-sm"
     >
-      <i class="fa-solid fa-folder-open text-base text-white"></i>
-      <p class="text-white text-pretty font-bold text-base">
-        No hay resultados
-      </p>
+      <span class="text-white/55 font-medium">No hay resultados</span>
     </div>
   </div>
 </div>

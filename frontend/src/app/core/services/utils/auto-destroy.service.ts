@@ -1,9 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class AutoDestroyService extends Subject<boolean> implements OnDestroy {
   public ngOnDestroy(): void {
     this.next(true);

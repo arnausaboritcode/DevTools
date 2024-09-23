@@ -4,13 +4,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { TaskRace } from '../../../../core/enums/task-race';
 import { FiltersDto } from '../../../../core/models/filtersDto';
-import { AbstractToolsSectionComponent } from '../../../../shared/abstract-tools-section/abstract-tools-section.component';
-import { TaskSkeletonComponent } from '../../../../shared/task-skeleton/task-skeleton.component';
-import { TaskComponent } from '../../../../shared/task/task.component';
+import { AutoDestroyService } from '../../../../core/services/utils/auto-destroy.service';
+import { AbstractToolsSectionComponent } from '../../../../shared/components/abstract-tools-section/abstract-tools-section.component';
+import { TaskSkeletonComponent } from '../../../../shared/components/task-skeleton/task-skeleton.component';
+import { TaskComponent } from '../../../../shared/components/task/task.component';
 
 @Component({
   selector: 'app-extension-tools',
   standalone: true,
+  providers: [AutoDestroyService],
   imports: [
     TaskComponent,
     CommonModule,
@@ -20,9 +22,9 @@ import { TaskComponent } from '../../../../shared/task/task.component';
     InfiniteScrollModule,
   ],
   templateUrl:
-    '../../../../shared/abstract-tools-section/abstract-tools-section.component.html',
+    '../../../../shared/components/abstract-tools-section/abstract-tools-section.component.html',
   styleUrl:
-    '../../../../shared/abstract-tools-section/abstract-tools-section.component.scss',
+    '../../../../shared/components/abstract-tools-section/abstract-tools-section.component.scss',
 })
 export class ExtensionToolsComponent extends AbstractToolsSectionComponent {
   constructor() {
@@ -33,9 +35,10 @@ export class ExtensionToolsComponent extends AbstractToolsSectionComponent {
     page: 1,
     limit: 10,
     type: TaskRace.Extension,
+    query: '',
   };
 
-  override propertiesOptions: string[] = ['Vs Code', 'Google Chrome', 'Figma'];
+  override propertiesOptions: string[] = ['Vs Code', 'Google Chrome'];
 
   override placeholderText: string = 'Descubre extensiones...';
 }

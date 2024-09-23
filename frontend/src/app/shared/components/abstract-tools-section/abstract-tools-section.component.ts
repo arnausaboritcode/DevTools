@@ -14,11 +14,17 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
-import { Subject, switchMap, takeUntil, tap } from 'rxjs';
-import { FiltersDto } from '../../core/models/filtersDto';
-import { TaskDto } from '../../core/models/taskDto';
-import { AutoDestroyService } from '../../core/services/utils/auto-destroy.service';
-import { TaskService } from '../../features/task/services/task-service.service';
+import {
+  BehaviorSubject,
+  distinctUntilChanged,
+  switchMap,
+  takeUntil,
+  tap,
+} from 'rxjs';
+import { FiltersDto } from '../../../core/models/filtersDto';
+import { TaskDto } from '../../../core/models/taskDto';
+import { AutoDestroyService } from '../../../core/services/utils/auto-destroy.service';
+import { TaskService } from '../../../features/task/services/task-service.service';
 import { TaskSkeletonComponent } from '../task-skeleton/task-skeleton.component';
 import { TaskComponent } from '../task/task.component';
 
@@ -40,7 +46,7 @@ import { TaskComponent } from '../task/task.component';
 export abstract class AbstractToolsSectionComponent implements OnInit {
   results: TaskDto[];
   filters: FiltersDto;
-  onFilterChange$: Subject<FiltersDto> = new Subject<FiltersDto>();
+  onFilterChange$!: BehaviorSubject<FiltersDto>;
 
   skeleton: boolean;
   hasMoreTasks: boolean;
@@ -81,19 +87,18 @@ export abstract class AbstractToolsSectionComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.onFilterChange$ = new BehaviorSubject<FiltersDto>({
+      ...this.filters,
+    });
+
     this.taskService.searchTerms$
-      .pipe(
-        takeUntil(this.destroy$),
-        tap(() => (this.results = [])),
-        switchMap((query: string) => {
-          this.filters.query = query;
-          this.filters.page = 1;
-          return this.taskService.getTasks(this.filters);
-        })
-      )
-      .subscribe((results) => {
-        this.results = results;
-        this.hasMoreTasks = this.results.length >= this.filters.limit;
+      .pipe(distinctUntilChanged(), takeUntil(this.destroy$))
+      .subscribe((query: string) => {
+        this.filters.page = 1;
+        this.onFilterChange$.next({
+          ...this.filters,
+          query: query,
+        });
       });
 
     this.subscribeToInputChanges();
@@ -124,44 +129,46 @@ export abstract class AbstractToolsSectionComponent implements OnInit {
   }
 
   subscribeToFormChanges(): void {
-    this.propertiesForm
-      .get('property')
-      ?.valueChanges.pipe(takeUntil(this.destroy$))
-      .subscribe((value) => {
-        this.applyFilter(value);
+    this.propertiesForm.valueChanges
+      .pipe(takeUntil(this.destroy$), distinctUntilChanged())
+      .subscribe(() => {
+        const property = this.propertiesForm.controls['property'].value;
+        if (property) {
+          this.filters.page = 1;
+          this.onFilterChange$.next({
+            ...this.filters,
+            property: property,
+          });
+
+          this.hasMoreTasks = this.results.length >= this.filters.limit;
+        }
       });
   }
 
-  applyFilter(value: string) {
-    this.filters = {
-      ...this.filters,
-      page: 1,
-      property: value,
-    };
-
-    this.onFilterChange$.next(this.filters);
-
-    this.hasMoreTasks = this.results.length >= this.filters.limit;
-  }
-
   resetFilters(): void {
-    this.propertiesForm.get('property')?.setValue('');
-    delete this.filters.property;
-    this.onFilterChange$.next(this.filters);
+    this.propertiesForm.controls['property'].setValue('');
+    this.filters.page = 1;
+    this.onFilterChange$.next({
+      ...this.filters,
+    });
 
     this.hasMoreTasks = true;
-    this.filters.page = 1;
   }
 
   subscribeToFiltersChanges(): void {
+    console.log('filtros activos');
     this.onFilterChange$
       .pipe(
-        takeUntil(this.destroy$),
-        tap(() => (this.results = [])),
-        switchMap((filters: FiltersDto) => this.taskService.getTasks(filters))
+        distinctUntilChanged(),
+        tap(() => {
+          this.results = [];
+        }),
+        switchMap((filters: FiltersDto) => this.taskService.getTasks(filters)),
+        takeUntil(this.destroy$)
       )
       .subscribe((results) => {
         this.results = results;
+        console.log('filtros activos', results);
         this.hasMoreTasks = this.results.length >= this.filters.limit;
       });
   }
@@ -190,10 +197,6 @@ export abstract class AbstractToolsSectionComponent implements OnInit {
 
   trackByTaskId(index: number, task: TaskDto): number {
     return +task.id!;
-  }
-
-  isActive(route: string): boolean {
-    return this.router.isActive(route, true);
   }
 
   scrollToTop(): void {

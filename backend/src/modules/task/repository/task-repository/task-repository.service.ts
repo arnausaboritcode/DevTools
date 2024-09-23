@@ -17,8 +17,9 @@ export class TaskRepositoryService implements BaseRepository<Task> {
 
     const queryBuilder = this.repository
       .createQueryBuilder('task')
+      .orderBy('task.createdAt', 'DESC')
       .where('LOWER(task.title) LIKE LOWER(:query)', {
-        query: `%${filters.query}%`,
+        query: `${filters.query.toLowerCase()}%`,
       })
       .skip(offset)
       .take(filters.limit);
