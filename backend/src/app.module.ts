@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -6,17 +7,20 @@ import { TaskModule } from './modules/task/task.module';
 
 @Module({
   imports: [
-    TaskModule,
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'postgres',
-      password: 'root',
-      database: 'geminidb',
+      host: process.env.POSTGRES_HOST,
+      port: parseInt(process.env.POSTGRES_PORT),
+      username: process.env.POSTGRES_USERNAME,
+      password: process.env.POSTGRES_PASSWORD,
+      database: process.env.POSTGRES_DATABASE,
       entities: ['dist/**/*.entity{.ts,.js}'],
-      synchronize: true, //Ho he cambiat a false
+      synchronize: true,
     }),
+    TaskModule,
   ],
   controllers: [AppController],
   providers: [AppService],
