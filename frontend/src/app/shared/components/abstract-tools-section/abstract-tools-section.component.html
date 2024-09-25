@@ -9,7 +9,7 @@
             class="fa-solid fa-arrow-down-short-wide text-sm text-white"
             [ngClass]="{
               'text-yellow-300': filters.type === 0,
-              'text-red-300': filters.type === 1
+              '!text-red-300': filters.type === 1
             }"
           ></i>
           <h1 class="text-lg font-bold text-white">Filtra por categoría</h1>
@@ -58,7 +58,7 @@
           class="fa-solid fa-magnifying-glass text-sm text-white"
           [ngClass]="{
             'text-yellow-300': filters.type === 0,
-            'text-red-300': filters.type === 1
+            '!text-red-300': filters.type === 1
           }"
         ></i>
       </div>

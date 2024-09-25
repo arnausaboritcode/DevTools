@@ -156,7 +156,6 @@ export abstract class AbstractToolsSectionComponent implements OnInit {
   }
 
   subscribeToFiltersChanges(): void {
-    console.log('filtros activos');
     this.onFilterChange$
       .pipe(
         distinctUntilChanged(),
@@ -168,7 +167,6 @@ export abstract class AbstractToolsSectionComponent implements OnInit {
       )
       .subscribe((results) => {
         this.results = results;
-        console.log('filtros activos', results);
         this.hasMoreTasks = this.results.length >= this.filters.limit;
       });
   }
